@@ -18,8 +18,8 @@ public class JuegoDeLaVida {
 		tablero.set_Elemento(6, 4, 1);
 		tablero.set_Elemento(6, 5, 1);		
 		Tablero.imprimirTableroInicial();
-		for (int i = 1; i < 56; i++) {
-			Tablero.calcularGeneraciones(temporal, tablero.get_Filas(), tablero.get_Columnas()); // imprimir las veces que se especifiquen
+		for (int i = 1; i < 56; i++) { // imprimir las veces que se especifiquen
+			Tablero.calcularGeneraciones(temporal, tablero.get_Filas(), tablero.get_Columnas()); 
 			int numero= i+1;
 			System.out.println("Generación número " + numero);
 		}
