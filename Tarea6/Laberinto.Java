@@ -14,7 +14,7 @@ public class Laberinto {
 	static ArrayList<ArrayList<String>> Labe = new ArrayList();
 	static Arreglo2DADT LabeRelleno = new Arreglo2DADT(10, 10);
 	static ArregloADT<Integer> coorActuales= new ArregloADT(2);
-	static Pila pila= new Pila();
+	static Pila<ArregloADT<Integer>> pila= new Pila();
 
 	public static void leerArchivo() throws IOException {
 		BufferedReader br = new BufferedReader(new FileReader(
@@ -75,7 +75,8 @@ public class Laberinto {
 					coorActuales.setElemento(0, i);
 					coorActuales.setElemento(1, j);
 					entrada = true;
-					pila.push(i +","+  j);
+					//pila.push(i +","+  j);
+					pila.push(coorActuales); //empujar arregloadt
 				}
 			}
 			
@@ -83,12 +84,33 @@ public class Laberinto {
 		return entrada;
 	}
 	
-	public static boolean salidaEncontrada() {
-		if(LabeRelleno.get_Elemento(coorActuales.getElemento(0), coorActuales.getElemento(1))=="~") {
-			
+	public static boolean ultimaCoord() {
+		if(LabeRelleno.get_Elemento(coorActuales.getElemento(0)-1, coorActuales.getElemento(1))=="~") {//izq
+			return true;
+		}else if(LabeRelleno.get_Elemento(coorActuales.getElemento(0), coorActuales.getElemento(1)+1)=="~") {//arriba
+			return true;
+		}else if(LabeRelleno.get_Elemento(coorActuales.getElemento(0)+1, coorActuales.getElemento(1))=="~") {//derecha
+			return true;
+		}else if(LabeRelleno.get_Elemento(coorActuales.getElemento(0), coorActuales.getElemento(1)-1)=="~") {//abajo
+			return true;
+		}else {
+			return false; //no
 		}
 	}
 	
+	public static void recorrido() {
+		coorActuales= pila.peek();
+		if(LabeRelleno.get_Elemento(coorActuales.getElemento(0), coorActuales.getElemento(1)-1) == "."){
+		}else if() {
+			
+		}else if() {
+			
+		}else if() {
+			
+		}else {
+			
+		}
+	}
 
 	public static void main(String args[]) throws IOException {
 		leerArchivo();
@@ -98,6 +120,7 @@ public class Laberinto {
 		System.out.println(existeInicio(LabeRelleno));
 		System.out.println(coorActuales);
 		System.out.println(pila.peek());
+		pila.transversal();
 
 	}
 }
