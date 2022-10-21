@@ -1,4 +1,4 @@
-
+package Lab;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -12,8 +12,9 @@ import ADT.Pila;
 public class Laberinto {
 
 	static ArrayList<ArrayList<String>> Labe = new ArrayList();
-	static Arreglo2DADT LabeRelleno = new Arreglo2DADT(10, 10);
+	static Arreglo2DADT<String> LabeRelleno = new Arreglo2DADT(10, 10);
 	static ArregloADT<Integer> coorActuales = new ArregloADT(2);
+	static ArrayList<Integer> coorActualess = new ArrayList(2);
 	static Pila<ArregloADT<Integer>> pila = new Pila();
 
 	public static void leerArchivo() throws IOException {
@@ -68,7 +69,6 @@ public class Laberinto {
 
 	public static boolean coorInicio(Arreglo2DADT laberinto) {
 		boolean entrada = false;
-		// ArregloADT coorActuales= new ArregloADT(1);
 		for (int i = 0; i < LabeRelleno.get_Filas(); i++) {
 			for (int j = 0; j < LabeRelleno.get_Columnas(); j++) {
 				if (LabeRelleno.get_Elemento(i, j) == "*") {
@@ -98,28 +98,22 @@ public class Laberinto {
 		}
 	}
 
-	//Un "." es camino
-	//Revisar metodo despues pra no repetir tanto codigo
-	//Si creamos el arreglo auxCoor antes tendremos menos lineas de código pero en caso de que se ejecutara el else estariamos creando arreglos para nada
-	//Un metodo a parte que cree el arreglo, agregue los elementos y haga un push a la pila
+	// Un "." es camino
+	// Revisar metodo despues pra no repetir tanto codigo
 	public static void recorrido() {
 		coorActuales = pila.peek(); // <Integer>coorActuales= new ArregloADT(2) "x" en [0] y "y" en [1]
-		if (LabeRelleno.get_Elemento(coorActuales.getElemento(0) + 1, coorActuales.getElemento(1)) == ".") {
-			ArregloADT<Integer> auxCoor = new ArregloADT(2);
-			auxCoor.setElemento(coorActuales.getElemento(0) + 1,coorActuales.getElemento(1));
-			pila.push(auxCoor);
-		} else if (LabeRelleno.get_Elemento(coorActuales.getElemento(0), coorActuales.getElemento(1) - 1) == ".") {
-			ArregloADT<Integer> auxCoor = new ArregloADT(2);
-			auxCoor.setElemento(coorActuales.getElemento(0),coorActuales.getElemento(1)-1);
-			pila.push(auxCoor);
-		} else if (LabeRelleno.get_Elemento(coorActuales.getElemento(0) - 1, coorActuales.getElemento(1)) == ".") {
-			ArregloADT<Integer> auxCoor = new ArregloADT(2);
-			auxCoor.setElemento(coorActuales.getElemento(0) - 1,coorActuales.getElemento(1));
-			pila.push(auxCoor);
-		} else if (LabeRelleno.get_Elemento(coorActuales.getElemento(0), coorActuales.getElemento(1) + 1) == ".") {
-			ArregloADT<Integer> auxCoor = new ArregloADT(2);
-			auxCoor.setElemento(coorActuales.getElemento(0),coorActuales.getElemento(1)+1);
-			pila.push(auxCoor);
+		if (LabeRelleno.get_Elemento(coorActuales.getElemento(0), coorActuales.getElemento(1) + 1) == "."
+				& LabeRelleno.get_Elemento(coorActuales.getElemento(0), coorActuales.getElemento(1) + 1) != "?") { // derecha
+			pila.push(new ArregloADT<Integer>(2, coorActuales.getElemento(0), coorActuales.getElemento(1) + 1));
+		} else if (LabeRelleno.get_Elemento(coorActuales.getElemento(0) + 1, coorActuales.getElemento(1)) == "."
+				& LabeRelleno.get_Elemento(coorActuales.getElemento(0) + 1, coorActuales.getElemento(1)) != "?") {// abajo
+			pila.push(new ArregloADT<Integer>(2,coorActuales.getElemento(0) + 1, coorActuales.getElemento(1)));
+		} else if (LabeRelleno.get_Elemento(coorActuales.getElemento(0), coorActuales.getElemento(1) - 1) == "."
+				& LabeRelleno.get_Elemento(coorActuales.getElemento(0), coorActuales.getElemento(1) - 1) != "?") {// izquierda
+			pila.push(new ArregloADT<Integer>(2,coorActuales.getElemento(0),coorActuales.getElemento(1)-1));
+		} else if (LabeRelleno.get_Elemento(coorActuales.getElemento(0) - 1, coorActuales.getElemento(1)) == "."
+				& LabeRelleno.get_Elemento(coorActuales.getElemento(0) - 1, coorActuales.getElemento(1)) != "?") {// arriba
+			pila.push(new ArregloADT<Integer>(2,coorActuales.getElemento(0) - 1, coorActuales.getElemento(1)));
 		} else {
 			LabeRelleno.set_Elemento(coorActuales.getElemento(0), coorActuales.getElemento(1), "?"); // back tracking
 			pila.pop();
@@ -131,15 +125,14 @@ public class Laberinto {
 		rellenarLabe(Labe);
 		imprimirLaberinto(LabeRelleno);
 		coorInicio(LabeRelleno);
-		System.out.println(pila.peek());
-		while(ultimaCoord()==false) {
-			recorrido();
-		}
-		
-		
+		System.out.println("Asomandose en la pila " + pila.peek());
 		System.out.println(coorActuales);
-		System.out.println(pila.peek());
+
+		while (ultimaCoord() == false) {
+			recorrido();
+			System.out.println(coorActuales);
+		}
 		pila.transversal();
-		
 
 	}
+}
