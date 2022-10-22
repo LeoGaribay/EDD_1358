@@ -99,7 +99,7 @@ public class Laberinto {
 	}
 
 	// Un "." es camino
-	// Revisar metodo despues pra no repetir tanto codigo
+	// Revisar metodo despues para no repetir tanto codigo
 	public static void recorrido() {
 		coorActuales = pila.peek(); // <Integer>coorActuales= new ArregloADT(2) "x" en [0] y "y" en [1]
 		if (LabeRelleno.get_Elemento(coorActuales.getElemento(0), coorActuales.getElemento(1) + 1) == "."
@@ -115,9 +115,10 @@ public class Laberinto {
 				& LabeRelleno.get_Elemento(coorActuales.getElemento(0) - 1, coorActuales.getElemento(1)) != "?") {// arriba
 			pila.push(new ArregloADT<Integer>(2,coorActuales.getElemento(0) - 1, coorActuales.getElemento(1)));
 		} else {
-			LabeRelleno.set_Elemento(coorActuales.getElemento(0), coorActuales.getElemento(1), "?"); // back tracking
-			pila.pop();
-		}
+			//LabeRelleno.set_Elemento(coorActuales.getElemento(0), coorActuales.getElemento(1), "?"); // back tracking
+		//	pila.pop();
+			System.out.println("test");
+		}//No se esta llegando al else
 	}
 
 	public static void main(String args[]) throws IOException {
@@ -127,11 +128,18 @@ public class Laberinto {
 		coorInicio(LabeRelleno);
 		System.out.println("Asomandose en la pila " + pila.peek());
 		System.out.println(coorActuales);
-
-		while (ultimaCoord() == false) {
+		
+		for (int i = 0; i < 10; i++) {
 			recorrido();
-			System.out.println(coorActuales);
+			pila.transversal();
 		}
+		/*while (ultimaCoord() == false) {
+			recorrido();
+			//System.out.println(coorActuales);
+			pila.transversal();
+			
+		}*/
+		imprimirLaberinto(LabeRelleno);
 		pila.transversal();
 
 	}
