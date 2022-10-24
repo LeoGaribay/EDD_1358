@@ -16,7 +16,7 @@ public class Laberinto {
 	static ArregloADT<Integer> coorActuales = new ArregloADT(2);
 	static Pila<ArregloADT<Integer>> pila = new Pila();
 	static ArregloADT<Integer> coorAnteriores = new ArregloADT(2);
-	static String coorAnterior= null;
+	
 
 	public static void leerArchivo() throws IOException {
 		BufferedReader br = new BufferedReader(new FileReader(
@@ -106,10 +106,14 @@ public class Laberinto {
 		// DERECHA
 		if (LabeRelleno.get_Elemento(coorActuales.getElemento(0), coorActuales.getElemento(1) + 1) == "."
 				& LabeRelleno.get_Elemento(coorActuales.getElemento(0), coorActuales.getElemento(1) + 1) != "?"
-				& coorAnterior != "["+ coorActuales.getElemento(0)+ "," + coorActuales.getElemento(1)+1 +"]") {
-			//coorAnteriores.setElemento(0,coorActuales.getElemento(0));
-			//coorAnteriores.setElemento(1, coorActuales.getElemento(1));
-			coorAnterior="["+ coorActuales.getElemento(0)+ "," + coorActuales.getElemento(1)+"]";
+				& coorAnteriores != new ArregloADT<Integer>(2, coorActuales.getElemento(0),
+						coorActuales.getElemento(1) + 1)) { //No se esta realizando el ultimo chequeo
+			System.out.println("AnterioresACOMPARAR"+ coorAnteriores);
+			coorAnteriores.setElemento(0,coorActuales.getElemento(0));
+			coorAnteriores.setElemento(1, coorActuales.getElemento(1));
+			System.out.print("Anteriores"+ coorAnteriores);
+			System.out.println("Comparar"+ new ArregloADT<Integer>(2, coorActuales.getElemento(0),
+						coorActuales.getElemento(1) + 1));
 			pila.push(new ArregloADT<Integer>(2, coorActuales.getElemento(0), coorActuales.getElemento(1) + 1));
 			
 	
@@ -126,11 +130,15 @@ public class Laberinto {
 			// IZQUIERDA
 		} else if (LabeRelleno.get_Elemento(coorActuales.getElemento(0), coorActuales.getElemento(1) - 1) == "."
 				& LabeRelleno.get_Elemento(coorActuales.getElemento(0), coorActuales.getElemento(1) - 1) != "?"
-				& coorAnterior != "["+ coorActuales.getElemento(0)+ "," + String.valueOf(coorActuales.getElemento(1)-1) +"]") {
-			//coorAnteriores.setElemento(0,coorActuales.getElemento(0));
-			//coorAnteriores.setElemento(1, coorActuales.getElemento(1));
-			coorAnterior="["+ coorActuales.getElemento(0)+ "," + coorActuales.getElemento(1)+"]";
+				& coorAnteriores != new ArregloADT<Integer>(2, coorActuales.getElemento(0),
+						coorActuales.getElemento(1) - 1)) {
+			System.out.println("AnterioresACOMPARAR"+ coorAnteriores);
+			coorAnteriores.setElemento(0,coorActuales.getElemento(0));
+			coorAnteriores.setElemento(1, coorActuales.getElemento(1));
 			pila.push(new ArregloADT<Integer>(2, coorActuales.getElemento(0), coorActuales.getElemento(1) - 1));
+			System.out.print("Anteriores"+ coorAnteriores);
+			System.out.println("Comparar"+ new ArregloADT<Integer>(2, coorActuales.getElemento(0),
+						coorActuales.getElemento(1) - 1));
 			
 			
 			// ARRIBA
@@ -155,9 +163,13 @@ public class Laberinto {
 		rellenarLabe(Labe);
 		imprimirLaberinto(LabeRelleno);
 		coorInicio(LabeRelleno);
-		for (int i = 0; i < 12; i++) {
+		
+		for (int i = 0; i < 8; i++) {
+			
+			System.out.println("Paso"+i);
 			recorrido();
 			pila.transversal();
+			System.out.print("-----------");
 		}
 
 		/*
