@@ -16,9 +16,7 @@ public class Laberinto {
 	static ArrayList<ArrayList<String>> Labe = new ArrayList();
 	static Arreglo2DADT<String> LabeRelleno = new Arreglo2DADT(10, 10);
 	static ArregloADT<Integer> coorActuales = new ArregloADT(2);
-	static ArregloADT<Integer> coorAnteriores = new ArregloADT(2);
 	static Pila<ArregloADT<Integer>> pila = new Pila();
-	static int[][] anterior = new int[2][1];
 	static String anteriorStr = "";
 
 	public static void leerArchivo() throws IOException {
