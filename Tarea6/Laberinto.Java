@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
 
 import ADT.Arreglo2DADT;
 import ADT.ArregloADT;
@@ -17,10 +18,8 @@ public class Laberinto {
 	static ArregloADT<Integer> coorActuales = new ArregloADT(2);
 	static ArregloADT<Integer> coorAnteriores = new ArregloADT(2);
 	static Pila<ArregloADT<Integer>> pila = new Pila();
-	static int[][] anterior= new int[2][1];
-	static String[] anteriorwey= new String[1];
-	
-	
+	static int[][] anterior = new int[2][1];
+	static String anteriorStr = "";
 
 	public static void leerArchivo() throws IOException {
 		BufferedReader br = new BufferedReader(new FileReader(
@@ -90,76 +89,69 @@ public class Laberinto {
 	}
 
 	public static boolean ultimaCoord() {
-		if (LabeRelleno.get_Elemento(coorActuales.getElemento(0) - 1, coorActuales.getElemento(1)) == "~") {// izq
+		if (LabeRelleno.get_Elemento(coorActuales.getElemento(0) + 1, coorActuales.getElemento(1)) == "~") {// derecha
 			return true;
-		} else if (LabeRelleno.get_Elemento(coorActuales.getElemento(0), coorActuales.getElemento(1) + 1) == "~") {// arriba
+		} else if (LabeRelleno.get_Elemento(coorActuales.getElemento(0), coorActuales.getElemento(1) + 1) == "~") {//  abajo
 			return true;
-		} else if (LabeRelleno.get_Elemento(coorActuales.getElemento(0) + 1, coorActuales.getElemento(1)) == "~") {// derecha
+		} else if (LabeRelleno.get_Elemento(coorActuales.getElemento(0) - 1, coorActuales.getElemento(1)) == "~") {// izquierda
 			return true;
-		} else if (LabeRelleno.get_Elemento(coorActuales.getElemento(0), coorActuales.getElemento(1) - 1) == "~") {// abajo
+		} else if (LabeRelleno.get_Elemento(coorActuales.getElemento(0), coorActuales.getElemento(1) - 1) == "~") {// arriba
 			return true;
 		} else {
-			return false; // no
+			return false;
 		}
 	}
 
-	// Un "." es camino
+	// Un "." es camino, "?" es camino sin salida
 	// Revisar metodo despues para no repetir tanto codigo
 	public static void recorrido() {
 		coorActuales = pila.peek(); // ArregloADT<Integer>coorActuales= new ArregloADT(2) "x" en [0] y "y" en [1]
 		// DERECHA
 		if (LabeRelleno.get_Elemento(coorActuales.getElemento(0), coorActuales.getElemento(1) + 1) == "."
 				& LabeRelleno.get_Elemento(coorActuales.getElemento(0), coorActuales.getElemento(1) + 1) != "?"
-				& anterior != new int[coorActuales.getElemento(0)][coorActuales.getElemento(1)+1]) { //No se esta realizando el ultimo chequeo estoy al borde del colapso mental
-			
-			System.out.println("AnterioresACOMPARAR"+ coorAnteriores);
-			coorAnteriores.setElemento(0,coorActuales.getElemento(0));
-			coorAnteriores.setElemento(1, coorActuales.getElemento(1));
-			System.out.print("Anteriores"+ coorAnteriores);
-			System.out.println("Comparar"+ new ArregloADT<Integer>(2, coorActuales.getElemento(0),
-						coorActuales.getElemento(1) + 1));
+				& !(Objects.equals(anteriorStr, coorActuales.getElemento(0) + "," + String
+						.valueOf(Integer.parseInt(coorActuales.getElemento(1).toString()) + Integer.parseInt("1"))))) {
+			System.out.println("Anteriores a comparar" + anteriorStr);
+			System.out.println("Comparar" + coorActuales.getElemento(0) + ","
+					+ String.valueOf(Integer.parseInt(coorActuales.getElemento(1).toString()) + Integer.parseInt("1")));
 			pila.push(new ArregloADT<Integer>(2, coorActuales.getElemento(0), coorActuales.getElemento(1) + 1));
-			
-	
-		// ABAJO
+			anteriorStr = coorActuales.getElemento(0) + "," + coorActuales.getElemento(1);
+			System.out.println("Anteriores" + anteriorStr);
+
+			// ABAJO
 		} else if (LabeRelleno.get_Elemento(coorActuales.getElemento(0) + 1, coorActuales.getElemento(1)) == "."
 				& LabeRelleno.get_Elemento(coorActuales.getElemento(0) + 1, coorActuales.getElemento(1)) != "?"
-				& coorAnteriores != new ArregloADT<Integer>(2, coorActuales.getElemento(0) + 1,
-						coorActuales.getElemento(1))) {
-			coorAnteriores.setElemento(0,coorActuales.getElemento(0));
-			coorAnteriores.setElemento(1, coorActuales.getElemento(1));
+				& !(Objects.equals(anteriorStr, String.valueOf(Integer.parseInt(coorActuales.getElemento(0).toString())
+						+ Integer.parseInt("1") + "," + coorActuales.getElemento(1))))) {
 			pila.push(new ArregloADT<Integer>(2, coorActuales.getElemento(0) + 1, coorActuales.getElemento(1)));
-		
-			
+			anteriorStr = coorActuales.getElemento(0) + "," + coorActuales.getElemento(1);
+
 			// IZQUIERDA
 		} else if (LabeRelleno.get_Elemento(coorActuales.getElemento(0), coorActuales.getElemento(1) - 1) == "."
 				& LabeRelleno.get_Elemento(coorActuales.getElemento(0), coorActuales.getElemento(1) - 1) != "?"
-				& coorAnteriores != new ArregloADT<Integer>(2, coorActuales.getElemento(0),
-						coorActuales.getElemento(1) - 1)) {
-			System.out.println("AnterioresACOMPARAR"+ coorAnteriores);
-			coorAnteriores.setElemento(0,coorActuales.getElemento(0));
-			coorAnteriores.setElemento(1, coorActuales.getElemento(1));
+				& !(Objects.equals(anteriorStr, coorActuales.getElemento(0) + "," + String
+						.valueOf(Integer.parseInt(coorActuales.getElemento(1).toString()) - Integer.parseInt("1"))))) {
+			System.out.println("Anteriores a comparar" + anteriorStr);
+			System.out.println("Comparar" + coorActuales.getElemento(0) + ","
+					+ String.valueOf(Integer.parseInt(coorActuales.getElemento(1).toString()) - Integer.parseInt("1")));
 			pila.push(new ArregloADT<Integer>(2, coorActuales.getElemento(0), coorActuales.getElemento(1) - 1));
-			System.out.print("Anteriores"+ coorAnteriores);
-			System.out.println("Comparar"+ new ArregloADT<Integer>(2, coorActuales.getElemento(0),
-						coorActuales.getElemento(1) - 1));
-			
-			
+			anteriorStr = coorActuales.getElemento(0) + "," + coorActuales.getElemento(1);
+			System.out.println("Anteriores" + anteriorStr);
+
 			// ARRIBA
 		} else if (LabeRelleno.get_Elemento(coorActuales.getElemento(0) - 1, coorActuales.getElemento(1)) == "."
 				& LabeRelleno.get_Elemento(coorActuales.getElemento(0) - 1, coorActuales.getElemento(1)) != "?"
-				& coorAnteriores != new ArregloADT<Integer>(2, coorActuales.getElemento(0) - 1,
-						coorActuales.getElemento(1))) {
-			coorAnteriores.setElemento(0,coorActuales.getElemento(0));
-			coorAnteriores.setElemento(1, coorActuales.getElemento(1));
+				& !(Objects.equals(anteriorStr, String.valueOf(Integer.parseInt(coorActuales.getElemento(0).toString())
+						- Integer.parseInt("1") + "," + coorActuales.getElemento(1))))) {
 			pila.push(new ArregloADT<Integer>(2, coorActuales.getElemento(0) - 1, coorActuales.getElemento(1)));
-		
+			anteriorStr = coorActuales.getElemento(0) + "," + coorActuales.getElemento(1);
+
 			// OTRO
 		} else {
 			LabeRelleno.set_Elemento(coorActuales.getElemento(0), coorActuales.getElemento(1), "?"); // back tracking
 			pila.pop();
-			System.out.println("testeando else");
-		} // No se esta llegando al else
+			System.out.println("POP");
+		} // No se estaba llegando al else porque "!=" no comparaba Strings
 	}
 
 	public static void main(String args[]) throws IOException {
@@ -167,24 +159,13 @@ public class Laberinto {
 		rellenarLabe(Labe);
 		imprimirLaberinto(LabeRelleno);
 		coorInicio(LabeRelleno);
-		anterior[0][0]=2;
-		anterior[0][0]=1;
-		System.out.println(Arrays.deepToString(anterior));
-		for (int i = 0; i < 8; i++) {
-			
-			System.out.println("Paso"+i);
+		while (ultimaCoord() == false) {
 			recorrido();
 			pila.transversal();
-			System.out.print("-----------");
-		}
+			System.out.print("-----------" + "\n");
 
-		/*
-		 * while (ultimaCoord() == false) { recorrido();
-		 * //System.out.println(coorActuales); pila.transversal();
-		 * 
-		 * }
-		 */
-		//Cambiar la forma en que registramos la ultima coordenada, crear un arreglo de booleans auxiliar que lleve la información de los visitados
-		//O CREAR UN NUEVO METODO QUE COMPARE ARREGLOS2DADT PQ != COMPARA EL OBJETO Y NO EL ARREGLO A LA VERGA
+		}
+		imprimirLaberinto(LabeRelleno);
+		//Todo funciona correctamente, pero la ultima cordenada antes del "~" es popeada
 	}
 }
