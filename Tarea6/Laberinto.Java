@@ -167,5 +167,6 @@ public class Laberinto {
 		}
 		imprimirLaberinto(LabeRelleno);
 		//Todo funciona correctamente, pero la ultima cordenada antes del "~" es popeada
+		//Creo que el problema esta en como el while verifica el metodo, algun dia lo arreglare
 	}
 }
