@@ -185,5 +185,6 @@ public class Laberinto {
 		 * }
 		 */
 		//Cambiar la forma en que registramos la ultima coordenada, crear un arreglo de booleans auxiliar que lleve la información de los visitados
+		//O CREAR UN NUEVO METODO QUE COMPARE ARREGLOS2DADT PQ != COMPARA EL OBJETO Y NO EL ARREGLO A LA VERGA
 	}
 }
