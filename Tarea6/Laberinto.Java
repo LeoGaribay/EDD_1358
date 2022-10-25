@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import ADT.Arreglo2DADT;
 import ADT.ArregloADT;
@@ -14,8 +15,11 @@ public class Laberinto {
 	static ArrayList<ArrayList<String>> Labe = new ArrayList();
 	static Arreglo2DADT<String> LabeRelleno = new Arreglo2DADT(10, 10);
 	static ArregloADT<Integer> coorActuales = new ArregloADT(2);
-	static Pila<ArregloADT<Integer>> pila = new Pila();
 	static ArregloADT<Integer> coorAnteriores = new ArregloADT(2);
+	static Pila<ArregloADT<Integer>> pila = new Pila();
+	static int[][] anterior= new int[2][1];
+	static String[] anteriorwey= new String[1];
+	
 	
 
 	public static void leerArchivo() throws IOException {
@@ -106,8 +110,8 @@ public class Laberinto {
 		// DERECHA
 		if (LabeRelleno.get_Elemento(coorActuales.getElemento(0), coorActuales.getElemento(1) + 1) == "."
 				& LabeRelleno.get_Elemento(coorActuales.getElemento(0), coorActuales.getElemento(1) + 1) != "?"
-				& coorAnteriores != new ArregloADT<Integer>(2, coorActuales.getElemento(0),
-						coorActuales.getElemento(1) + 1)) { //No se esta realizando el ultimo chequeo
+				& anterior != new int[coorActuales.getElemento(0)][coorActuales.getElemento(1)+1]) { //No se esta realizando el ultimo chequeo estoy al borde del colapso mental
+			
 			System.out.println("AnterioresACOMPARAR"+ coorAnteriores);
 			coorAnteriores.setElemento(0,coorActuales.getElemento(0));
 			coorAnteriores.setElemento(1, coorActuales.getElemento(1));
@@ -163,7 +167,9 @@ public class Laberinto {
 		rellenarLabe(Labe);
 		imprimirLaberinto(LabeRelleno);
 		coorInicio(LabeRelleno);
-		
+		anterior[0][0]=2;
+		anterior[0][0]=1;
+		System.out.println(Arrays.deepToString(anterior));
 		for (int i = 0; i < 8; i++) {
 			
 			System.out.println("Paso"+i);
@@ -178,6 +184,6 @@ public class Laberinto {
 		 * 
 		 * }
 		 */
-
+		//Cambiar la forma en que registramos la ultima coordenada, crear un arreglo de booleans auxiliar que lleve la información de los visitados
 	}
 }
