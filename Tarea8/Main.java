@@ -1,19 +1,21 @@
 public class Main {
 
 	public static void main(String[] args) {
-		Cola colita= new Cola();
-		System.out.println(colita.estaVacia());
-		colita.enqueue("Agregando un elemento a la Cola");
-		colita.enqueue("segundo objeto agrgado");
-		colita.enqueue("tercer objeto agregado");
-		colita.imprimirCola();
-		System.out.println(colita.getTamanio());
-		System.out.println(colita.estaVacia());
-		System.out.println("Quitando un objeto de la cola...");
-		colita.dequeue();
-		colita.imprimirCola();
-		System.out.println("La cola funciona correctamente!");
+		// TODO Auto-generated method stub
+		ColaPA colatest= new ColaPA(5);
 		
+		System.out.println(colatest.estaVacia());
+		System.out.println(colatest.getTamanio());
+		//colatest.enqueue(3, "Priori 3");
+		colatest.enqueue(2, "Priori 2");
+		colatest.enqueue(1, "Priori 1");
+		colatest.enqueue(5, "Priori 5");
+		colatest.transversal();
+		colatest.enqueue(2, "Ayudando a 2");
+		colatest.enqueue(4, "Priori 4");
+		colatest.transversal();
+		colatest.dequeue();
+		colatest.transversal();
 	}
 
 }
